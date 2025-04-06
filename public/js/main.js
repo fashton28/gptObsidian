@@ -1,6 +1,7 @@
 // DOM Elements
 const titleBox = document.querySelector('.title-box');
 const mainTitle = document.querySelector('.main-title');
+const modal = document.getElementById('myModal');
 
 //Handlign the frontend
 function animateTitleBox() {
@@ -13,6 +14,11 @@ function animateTitleBox() {
             titleBox.style.transform = 'rotate(-2deg)';
         });
     }
+}
+
+
+function closeModal() {
+    modal.classList.add('hidden');
 }
 
 // Function to handle responsive behavior
@@ -30,4 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     handleResponsive();
     // Add window resize listener
     window.addEventListener('resize', handleResponsive);
+    
+    // Make modal functions globally available
+    window.showModal = showModal;
+    window.closeModal = closeModal;
 }); 
