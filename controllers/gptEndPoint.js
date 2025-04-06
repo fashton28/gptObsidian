@@ -21,18 +21,7 @@ const GenerateFile = async (req, res) => {
             messages: [
                 {
                     role: "system",
-                    content: `You are an avid note taker that will create different interconnected notes based on the following request ${request}:
-                    1. Use ### for main titles
-                    2. Use regular paragraphs for text
-                    3. Use **text** for emphasis
-                    4. ALWAYS use bullet points (- or *) to break down key points, examples, or steps
-                    5. Use > for important quotes
-                    6. Keep the formatting clean and consistent
-                    7. Structure your response with:
-                       - Key points in bullet points. use "-" for bullet points and put space in between each bullet point
-                       - Examples or applications in bullet points
-                    8. just answer in bullet points. No introductory sentences. JUST BULLETPOINTS 
-                    `
+                    content: `Create a structured set of interconnected notes in valid JSON format based on the topic: ${request}.\n\nEach key in the JSON should be the title of a note. In the value (note content), any mention of another key (i.e., note title) should be wrapped in double square brackets to form Obsidian-style internal links — for example, [[Duke University]].\n\nThe content for each note should be in natural paragraph form (not a list), and contain multiple sentences of informative detail. If a note title refers to a place, person, or concept that appears in multiple notes, make sure it is always linked.\n\nReturn only the JSON object with no explanation or extra text. Make sure the JSON is valid.`
                 },
                 {
                     role: "user",
@@ -40,7 +29,7 @@ const GenerateFile = async (req, res) => {
                 }
             ],
             model: "gpt-4",
-            max_tokens: 200
+            max_tokens: 1000
         });
 
         res.status(200).json({
@@ -55,4 +44,4 @@ const GenerateFile = async (req, res) => {
     }
 };
 
-module.exports = GenerateResponse;
+module.exports = GenerateFile;
