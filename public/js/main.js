@@ -1,3 +1,7 @@
+//Module Imports
+const {TestWriting} = require("gptObsidian/controllers/fileManagement.js")
+
+
 // DOM Elements
 const titleBox = document.querySelector('.title-box');
 const mainTitle = document.querySelector('.main-title');

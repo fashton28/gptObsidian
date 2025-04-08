@@ -44,4 +44,6 @@ const GenerateFile = async (req, res) => {
     }
 };
 
-module.exports = GenerateFile;
+module.exports = {
+    GenerateFile
+};
