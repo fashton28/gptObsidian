@@ -72,26 +72,29 @@ document.addEventListener('DOMContentLoaded', () => {
 // }); 
 
 testButton.addEventListener('click', async () => {
-    console.log('Button clicked');
+    const spinner = document.getElementById('loadingScreen');
     try {
-        const response = await fetch('/create-note', {
+        spinner.classList.remove('hidden');
+        const response = await fetch('http://localhost:3000/create-note', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 
-                topic: "Create comprehensive notes on the history of rust(programming language)" 
+            body: JSON.stringify({
+                topic: 'Florida'
             })
         });
-
+        
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+        
         const data = await response.json();
-        console.log('Note created:', data);
+        console.log('Success:', data);
     } catch (error) {
         console.error('Error:', error);
+    } finally {
+        spinner.classList.add('hidden');
     }
 });
 
