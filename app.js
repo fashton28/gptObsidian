@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { GenerateFile } = require('./controllers/gptEndPoint');
+const { CreateNoteFromGPT } = require('./controllers/fileManagement');
 const app = express();
 
 // Middleware to parse JSON bodies
@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// GPT API endpoint
-app.post('/api', GenerateFile);
+// Create note from GPT endpoint
+app.post('/create-note', CreateNoteFromGPT);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

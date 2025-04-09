@@ -1,12 +1,11 @@
 //Module Imports
-const {TestWriting} = require("gptObsidian/controllers/fileManagement.js")
-
-
 // DOM Elements
+console.log('Script loaded');
 const titleBox = document.querySelector('.title-box');
 const mainTitle = document.querySelector('.main-title');
 const modal = document.getElementById('myModal');
-
+const testButton = document.getElementById('gpttest');
+console.log('Test button element:', testButton);
 //Handlign the frontend
 function animateTitleBox() {
     if (titleBox) {
@@ -36,6 +35,7 @@ function handleResponsive() {
 
 // Initialize functions when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded');
     animateTitleBox();
     handleResponsive();
     // Add window resize listener
@@ -44,4 +44,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make modal functions globally available
     window.showModal = showModal;
     window.closeModal = closeModal;
-}); 
+});
+
+// Add click event listener to test button
+// testButton.addEventListener('click', async () => {
+//     console.log('Button clicked');
+//     try {
+//         const response = await fetch('/create-note', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ 
+//                 topic: "Create comprehensive notes on typescript" 
+//             })
+//         });
+
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
+
+//         const data = await response.json();
+//         console.log('Note created:', data);
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }); 
+
+testButton.addEventListener('click', async () => {
+    console.log('Button clicked');
+    try {
+        const response = await fetch('/create-note', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                topic: "Create comprehensive notes on the history of rust(programming language)" 
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log('Note created:', data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+
+
+
+
+
