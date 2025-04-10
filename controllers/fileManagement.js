@@ -29,16 +29,29 @@ async function CreateNoteFromGPT(req, res) {
         // Get GPT response
         const gptResponse = await GenerateFile(gptRequest, res);
         
-        // Create a filename from the topic
-        const fileName = `${topic.toLowerCase().replace(/\s+/g, '-')}.md`;
+     
+
+        // Parse the JSON string into an object
+        const parsedResponse = JSON.parse(gptResponse.answer);
         
-        // Write the GPT response to a file
-        TestWriting(fileName, gptResponse.answer);
+        // Create an array to store created filenames
+        const createdFiles = [];
+        
+        // Create a separate file for each key-value pair
+        for (const [key, value] of Object.entries(parsedResponse)) {
+            // Create a filename from the key
+            const fileName = `${key.toLowerCase().replace(/\s+/g, '-')}.md`;
+            
+            // Write each note to a separate file
+            TestWriting(fileName, value);
+            createdFiles.push(fileName);
+            console.log(`Created file: ${fileName}`);
+        }
         
         res.status(200).json({
             success: true,
-            fileName: fileName,
-            content: gptResponse.answer
+            files: createdFiles,
+            content: parsedResponse
         });
     } catch (error) {
         console.error('Error in CreateNoteFromGPT:', error);

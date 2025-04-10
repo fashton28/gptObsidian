@@ -5,7 +5,11 @@ const titleBox = document.querySelector('.title-box');
 const mainTitle = document.querySelector('.main-title');
 const modal = document.getElementById('myModal');
 const testButton = document.getElementById('gpttest');
-console.log('Test button element:', testButton);
+const formButton = document.getElementById("submitForm");
+const text = document.getElementById("requesting")
+
+
+
 //Handlign the frontend
 function animateTitleBox() {
     if (titleBox) {
@@ -71,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //     }
 // }); 
 
-testButton.addEventListener('click', async () => {
+formButton.addEventListener('click', async () => {
     const spinner = document.getElementById('loadingScreen');
     try {
         spinner.classList.remove('hidden');
@@ -81,16 +85,18 @@ testButton.addEventListener('click', async () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                topic: 'Florida'
+                topic: "vercel"
             })
         });
-        
+
+        requesting.value = ''
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
-        console.log('Success:', data);
+        // const parsedData = JSON.parse(data.answer)
+        console.log('Success:', JSON.parse(data.answer));
     } catch (error) {
         console.error('Error:', error);
     } finally {
