@@ -18,6 +18,7 @@ async function CreateNoteFromGPT(req, res) {
             console.log('No topic provided'); // Debug log
             return res.status(400).json({ error: 'Topic is required' });
         }
+       
 
         // Create a mock request object for GenerateFile
         const gptRequest = {
@@ -29,11 +30,9 @@ async function CreateNoteFromGPT(req, res) {
         // Get GPT response
         const gptResponse = await GenerateFile(gptRequest, res);
         
-     
-
         // Parse the JSON string into an object
         const parsedResponse = JSON.parse(gptResponse.answer);
-        
+
         // Create an array to store created filenames
         const createdFiles = [];
         

@@ -79,13 +79,13 @@ formButton.addEventListener('click', async () => {
     const spinner = document.getElementById('loadingScreen');
     try {
         spinner.classList.remove('hidden');
-        const response = await fetch('http://localhost:3000/create-note', {
+        const response = await fetch('/create-note', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                topic: "vercel"
+                topic: "create a breakdown of APUSH UNIT 8. A study guide"
             })
         });
 

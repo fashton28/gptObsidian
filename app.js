@@ -6,8 +6,8 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Serve static files from the public directory
-app.use(express.static('public'));
+// Serve static files from the public directory with proper MIME types
+app.use(express.static(path.join(__dirname, "public")))
 
 // Set up the main route
 app.get('/', (req, res) => {
