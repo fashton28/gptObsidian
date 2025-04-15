@@ -6,11 +6,17 @@ const mainTitle = document.querySelector('.main-title');
 const modal = document.getElementById('myModal');
 const testButton = document.getElementById('gpttest');
 const formButton = document.getElementById("submitForm");
-const text = document.getElementById("requesting")
+const text = document.getElementById("requesting");
+const form = document.getElementById("AskForm");
+const loadingScreen = document.getElementById("loadingScreen");
+const loadingBar = document.getElementById("loadingBar");
+const progressPercent = document.getElementById("progressPercent");
 
+function showModal() {
+    modal.classList.remove('hidden');
+}
 
-
-//Handlign the frontend
+//Handling the frontend
 function animateTitleBox() {
     if (titleBox) {
         titleBox.addEventListener('mouseenter', () => {
@@ -23,7 +29,6 @@ function animateTitleBox() {
     }
 }
 
-
 function closeModal() {
     modal.classList.add('hidden');
 }
@@ -35,6 +40,43 @@ function handleResponsive() {
     } else {
         mainTitle.style.fontSize = '1.875rem';
     }
+}
+
+// Function to animate loading bar
+function animateLoadingBar() {
+    let width = 0;
+    loadingBar.style.width = '0%';
+    progressPercent.textContent = '0%';
+    
+    const interval = setInterval(() => {
+        if (width >= 90) {
+            clearInterval(interval);
+        } else {
+            width += Math.random() * 5;
+            if (width > 90) width = 90;
+            loadingBar.style.width = `${width}%`;
+            progressPercent.textContent = `${Math.round(width)}%`;
+        }
+    }, 300);
+    
+    return {
+        complete: () => {
+            clearInterval(interval);
+            width = 100;
+            loadingBar.style.width = '100%';
+            progressPercent.textContent = '100%';
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                loadingBar.style.width = '0%';
+            }, 1000);
+        },
+        reset: () => {
+            clearInterval(interval);
+            loadingBar.style.width = '0%';
+            progressPercent.textContent = '0%';
+            loadingScreen.classList.add('hidden');
+        }
+    };
 }
 
 // Initialize functions when DOM is loaded
@@ -50,57 +92,45 @@ document.addEventListener('DOMContentLoaded', () => {
     window.closeModal = closeModal;
 });
 
-// Add click event listener to test button
-// testButton.addEventListener('click', async () => {
-//     console.log('Button clicked');
-//     try {
-//         const response = await fetch('/create-note', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({ 
-//                 topic: "Create comprehensive notes on typescript" 
-//             })
-//         });
-
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-
-//         const data = await response.json();
-//         console.log('Note created:', data);
-//     } catch (error) {
-//         console.error('Error:', error);
-//     }
-// }); 
-
-formButton.addEventListener('click', async () => {
-    const spinner = document.getElementById('loadingScreen');
+// Handle form submission
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    if (!text.value) {
+        alert('Please enter a topic');
+        return;
+    }
+    
+    loadingScreen.classList.remove('hidden');
+    const loading = animateLoadingBar();
+    
     try {
-        spinner.classList.remove('hidden');
         const response = await fetch('/create-note', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                topic: "create a breakdown of APUSH UNIT 8. A study guide"
+                topic: text.value
             })
         });
-
-        requesting.value = ''
+        
+        text.value = '';
+        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
-        // const parsedData = JSON.parse(data.answer)
-        console.log('Success:', JSON.parse(data.answer));
+        console.log('Success:', data);
+        loading.complete();
+        
+        // Display success message
+        alert('Notes successfully created!');
     } catch (error) {
         console.error('Error:', error);
-    } finally {
-        spinner.classList.add('hidden');
+        loading.reset();
+        alert('Error creating notes: ' + error.message);
     }
 });
 

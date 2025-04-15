@@ -27,7 +27,6 @@
 <body class="bg-gray-100 h-max">
     <div class ="navbar w-full">
         <button> <i class="fas fa-moon text-2xl hover:scale-125 transform transition-transform duration-200 m-2  rounded-full text-purple-500 "></i></button>
-        <button class="bg-purple-500 rounded-full text-white p-2 font-rubik " id="gpttest">test</button>
     </div>
     <div class="image-container flex justify-center items-center mt-20 md:mt-40">
         <img src="./img/obsidian.png" alt="obsidian_svg" class="w-32 md:w-48 lg:w-64">
@@ -42,13 +41,30 @@
             </h1>
         </div>
     </div>
-    <div class="inputContainer flex justify-center items-center w-full px-4 md:px-8 gap-6">
+    <form id="AskForm" class="inputContainer flex justify-center items-center w-full px-4 md:px-8 gap-6">
         <input class="border-2 border-purple-500 rounded-lg font-rubik font-bold w-full max-w-2xl px-4 py-2" type="text" name="inputRequest" id="requesting" placeholder="I want to learn about Florida">
-        <button class="sendFormButton"><i class="fas fa-paper-plane text-2xl text hover:scale-105 transform transition-transform duration-200" id="submitForm"></i></button>
-    </div>
-    <div class="flex justify-center items-center mt-10 gap-4 hidden" id="loadingScreen">
-        <i class="fa-solid fa-spinner animate-spin"></i> 
-        <p class="font-rubik">Making your request!</p>
+        <button type="submit" class="sendFormButton"><i class="fas fa-paper-plane text-2xl text hover:scale-105 transform transition-transform duration-200" id="submitForm"></i></button>
+    </form>
+    <div class="flex justify-center items-center mt-10 hidden" id="loadingScreen">
+        <div class="w-full max-w-md mx-auto px-4">
+            <div class="relative pt-1">
+                <div class="flex mb-2 items-center justify-between">
+                    <div>
+                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200">
+                            Generating Notes
+                        </span>
+                    </div>
+                    <div class="text-right">
+                        <span id="progressPercent" class="text-xs font-semibold inline-block text-purple-600">
+                            0%
+                        </span>
+                    </div>
+                </div>
+                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-purple-200">
+                    <div id="loadingBar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500 w-0 transition-all duration-300 ease-in-out"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="myModal" class=" hidden inset-0 bg-black bg-opacity-50 flex items-center justify-center">

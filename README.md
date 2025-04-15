@@ -2,8 +2,7 @@
 A centralized second brain (An actual second brain). Become an better thinker.
 
 To Do
-
-- File creation end point is working --> 
-- Organize DOM elements 
-- Work on integrating both endpoints into a single one.
-- Deploying web application as app
+-[x] Fix front Ends
+- [ ]Add command to chat with notes -> Open automatic dashboard for
+- [ ]notes system --> Choose the style of your notes.
+- [x]Add loading bar for request.
