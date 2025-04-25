@@ -3,9 +3,10 @@ const path = require('path')
 const { GenerateFile } = require('./gptEndPoint')
 const folderPath = '/Users/fashton/Documents/OBSIDIAN/TEST'
 
-function TestWriting(fileName, content) {
+function TestWriting(fileName, content, topicFolder) {
     try {
-        const filePath = path.join(folderPath, fileName);
+        // Create the path for the file inside the topic folder
+        const filePath = path.join(folderPath, topicFolder, fileName);
         
         // Format content as markdown
         let contentString = '';
@@ -17,13 +18,22 @@ function TestWriting(fileName, content) {
             contentString = content;
         }
         
-        // Ensure the directory exists
+        // Ensure the main directory exists
         if (!fs.existsSync(folderPath)) {
             fs.mkdirSync(folderPath, { recursive: true });
         }
         
+        // Ensure the topic directory exists
+        const topicDirPath = path.join(folderPath, topicFolder);
+        if (!fs.existsSync(topicDirPath)) {
+            fs.mkdirSync(topicDirPath, { recursive: true });
+            console.log(`Topic directory created: ${topicFolder}`);
+        }
+        
         fs.writeFileSync(filePath, contentString, 'utf8');
-        console.log(`File created: ${fileName}`);
+        console.log(`File created: ${topicFolder}/${fileName}`);
+        
+        return path.join(topicFolder, fileName);
     } catch (error) {
         console.error(`Error writing file ${fileName}:`, error);
         throw error;
@@ -39,7 +49,10 @@ async function CreateNoteFromGPT(req, res) {
             console.log('No topic provided');
             return res.status(400).json({ error: 'Topic is required' });
         }
-
+        
+        // Create a folder name from the topic
+        const topicFolder = topic.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').trim('-');
+        
         const gptRequest = {
             body: {
                 request: topic
@@ -52,13 +65,13 @@ async function CreateNoteFromGPT(req, res) {
         
         for (const [key, value] of Object.entries(parsedResponse)) {
             const fileName = `${key.toLowerCase().replace(/\s+/g, '-')}.md`;
-            TestWriting(fileName, value);
-            createdFiles.push(fileName);
-            console.log(`Created file: ${fileName}`);
+            const filePath = TestWriting(fileName, value, topicFolder);
+            createdFiles.push(filePath);
         }
         
         res.status(200).json({
             success: true,
+            folder: topicFolder,
             files: createdFiles,
             content: parsedResponse
         });
