@@ -17,6 +17,8 @@ app.get('/', (req, res) => {
 // Create note from GPT endpoint
 app.post('/create-note', CreateNoteFromGPT);
 
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

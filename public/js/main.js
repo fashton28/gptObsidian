@@ -11,6 +11,7 @@ const form = document.getElementById("AskForm");
 const loadingScreen = document.getElementById("loadingScreen");
 const loadingBar = document.getElementById("loadingBar");
 const progressPercent = document.getElementById("progressPercent");
+const cancelRequest = document.getElementById("cancelRequest");
 
 function showModal() {
     modal.classList.remove('hidden');

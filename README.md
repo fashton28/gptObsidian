@@ -6,4 +6,5 @@ To Do
 - [ ]Add command to chat with notes -> Open automatic dashboard for
 - []notes system --> Choose the style of your notes.
 - [] Create folder before creation file.
-- [x]Add loading bar for request.
+- [x]Add loading bar for request
+-[] Use AbortController to create cancel request button
